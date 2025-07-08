@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0h1kvl62j2m0"]
+
+[ext_resource type="PackedScene" uid="uid://cuqpx8phju2i1" path="res://scenes/world.tscn" id="1_6wixv"]
+[ext_resource type="Script" uid="uid://crpg4wteflncq" path="res://scripts/GameRoot.cs" id="1_cshi8"]
+[ext_resource type="PackedScene" uid="uid://d0j32gmocbvb6" path="res://scenes/ui/pauseMenu.tscn" id="2_cshi8"]
+
+[node name="GameRoot" type="Node"]
+process_mode = 3
+script = ExtResource("1_cshi8")
+
+[node name="World" parent="." instance=ExtResource("1_6wixv")]
+process_mode = 1
+
+[node name="PauseMenu" parent="." instance=ExtResource("2_cshi8")]
