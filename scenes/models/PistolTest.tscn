@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyxx82hl23eka"]
+
+[ext_resource type="PackedScene" uid="uid://da3o34q8xpoas" path="res://assets/pistolTest/pistol.gltf" id="1_dts1r"]
+
+[node name="PistolTest" instance=ExtResource("1_dts1r")]

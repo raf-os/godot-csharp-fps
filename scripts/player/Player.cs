@@ -51,8 +51,6 @@ public partial class Player : CharacterBody3D
         }
 
         inputDir = Input.GetVector("moveLeft", "moveRight", "moveForwards", "moveBackwards");
-        
-        //HandleMovement((float)delta);
 
         MoveAndSlide();
     }
