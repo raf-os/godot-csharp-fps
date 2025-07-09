@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+namespace PlayerComponents;
+
 public partial class Player : CharacterBody3D
 {
     [Export]
@@ -43,6 +45,7 @@ public partial class Player : CharacterBody3D
 
         if (!IsTouchingFloor())
         {
+            // Apply gravity
             Velocity = new Vector3(
                 x: Velocity.X,
                 y: Velocity.Y - (gravity * 1.5f * (float)delta),

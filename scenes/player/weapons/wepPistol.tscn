@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://md1rwsejbi5k"]
+[gd_scene load_steps=12 format=3 uid="uid://md1rwsejbi5k"]
 
 [ext_resource type="ArrayMesh" uid="uid://dq4ava2ugkt3i" path="res://assets/pistolTest/mesh/pistol_Cube_001.res" id="1_lnhe8"]
+[ext_resource type="Script" uid="uid://d1dhfvthoypkn" path="res://scripts/player/BasePlayerGun.cs" id="1_xvrm1"]
 [ext_resource type="ArrayMesh" uid="uid://bak04ogo20cn5" path="res://assets/pistolTest/mesh/pistol_Cylinder.res" id="2_xvrm1"]
 [ext_resource type="ArrayMesh" uid="uid://bo4bgt7dtrhvd" path="res://assets/pistolTest/mesh/pistol_Cube_002.res" id="3_7w0ha"]
 [ext_resource type="ArrayMesh" uid="uid://uyvwxsgg0d3y" path="res://assets/pistolTest/mesh/pistol_Cylinder_004.res" id="4_au80x"]
@@ -10,12 +11,103 @@
 [sub_resource type="Animation" id="Animation_ojgd6"]
 resource_name = "Idle"
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_tjrsk"]
-_data = {
-&"Idle": SubResource("Animation_ojgd6")
+[sub_resource type="Animation" id="Animation_lnhe8"]
+resource_name = "Attack"
+length = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PistolTest/Slide:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.1, -0.185874, -0.55, -0.1, -0.0031147, 0.2, -0.000128984, 0, -0.1, 0, 0.1, 0),
+"times": PackedFloat32Array(0, 0.1, 0.3)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PistolTest/Slide:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -0.000760839, -0.25, 0, 0.25, 0, 0.00521056, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.001, 0.002)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PistolTest/Slide:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"ResetAttackCooldown"
+}]
 }
 
-[node name="WepPistol" type="Node3D"]
+[sub_resource type="Animation" id="Animation_xvrm1"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PistolTest/Slide:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PistolTest/Slide:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PistolTest/Slide:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tjrsk"]
+_data = {
+&"Attack": SubResource("Animation_lnhe8"),
+&"Idle": SubResource("Animation_ojgd6"),
+&"RESET": SubResource("Animation_xvrm1")
+}
+
+[node name="WepPistol" type="Node3D" node_paths=PackedStringArray("animPlayer")]
+script = ExtResource("1_xvrm1")
+animPlayer = NodePath("AnimationPlayer")
 
 [node name="PistolTest" type="Node3D" parent="."]
 
@@ -56,3 +148,7 @@ skeleton = NodePath("")
 libraries = {
 &"": SubResource("AnimationLibrary_tjrsk")
 }
+
+[node name="ADSPosition" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.74384, 0.690796, 0)
+gizmo_extents = 1.0
