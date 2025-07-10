@@ -44,11 +44,15 @@ public partial class PlayerWeapons : Node3D
 		}
 	}
 
-    public override void _UnhandledInput(InputEvent @event)
+	public override void _UnhandledInput(InputEvent @event)
 	{
 		if (@event.IsActionPressed("attack"))
 		{
-			bool canAttack = currentWeapon.Attack();
+			currentWeapon.Attack();
+		}
+		else if (@event.IsActionPressed("secondaryAttack"))
+		{
+			currentWeapon.SecondaryAttack();
 		}
 	}
 

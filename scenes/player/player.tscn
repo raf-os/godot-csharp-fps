@@ -52,4 +52,3 @@ script = ExtResource("6_75vfm")
 CameraNode = NodePath("../Head/Camera3D")
 
 [node name="WepPistol" parent="PlayerWeapons" instance=ExtResource("7_0owmy")]
-transform = Transform3D(-4.37114e-09, 0, 0.1, 0, 0.1, 0, -0.1, 0, -4.37114e-09, 0.082, -0.117285, -0.184)

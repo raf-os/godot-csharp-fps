@@ -18,20 +18,31 @@ public partial class WeaponStatsResource : Resource
     public string Name;
     [Export]
     public WeaponTypes WeaponType;
+
+    [ExportSubgroup("Camera Positions")]
+    [Export]
+    public Vector3 DefaultCameraPosition;
+    [Export]
+    public Vector3 ADSCameraPosition;
+
     [ExportSubgroup("Stats")]
     [Export]
-    public float Damage;
+    public float Damage = 1.0f;
+    [Export]
+    public float AimSpeed = 1.0f;
 
-    public WeaponStatsResource() : this(null, WeaponTypes.None, 0f) {}
+    public WeaponStatsResource() : this(null, WeaponTypes.None, 1.0f, 1.0f) { }
 
     public WeaponStatsResource(
         string name,
         WeaponTypes weaponType,
-        float damage = 0f
+        float damage = 1.0f,
+        float aimSpeed = 1.0f
     )
     {
         Name = name;
         WeaponType = weaponType;
         Damage = damage;
+        AimSpeed = aimSpeed;
     }
 }

@@ -106,13 +106,14 @@ _data = {
 &"RESET": SubResource("Animation_xvrm1")
 }
 
-[node name="WepPistol" type="Node3D" node_paths=PackedStringArray("animPlayer", "ADSPosition")]
+[node name="WepPistol" type="Node3D" node_paths=PackedStringArray("model", "animPlayer")]
 script = ExtResource("1_xvrm1")
+model = NodePath("PistolTest")
 animPlayer = NodePath("AnimationPlayer")
-ADSPosition = NodePath("ADSPosition")
 Stats = ExtResource("2_7w0ha")
 
 [node name="PistolTest" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-09, 0, 0.1, 0, 0.1, 0, -0.1, 0, -4.37114e-09, 0, 0, 0)
 
 [node name="Base" type="Node3D" parent="PistolTest"]
 
@@ -151,7 +152,3 @@ skeleton = NodePath("")
 libraries = {
 &"": SubResource("AnimationLibrary_tjrsk")
 }
-
-[node name="ADSPosition" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.74384, 0.690796, 0)
-gizmo_extents = 1.0

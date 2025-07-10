@@ -6,24 +6,32 @@ using WeaponSystem;
 public partial class BasePlayerGun : Node3D, IWeapon
 {
 	[Export]
-	private AnimationPlayer animPlayer;
+	private Node3D model;
 	[Export]
-	private Marker3D ADSPosition;
+	private AnimationPlayer animPlayer;
 	[Export]
 	public WeaponStatsResource Stats;
 
-	private Transform3D ADSOffset;
+	
 
 	private bool canFire = true;
+	private bool isADS = false;
 	private Vector2 mouseMovement = Vector2.Zero;
 	private Vector2 minWeaponSway = new Vector2(-10, -10);
 	private Vector2 maxWeaponSway = new Vector2(10, 10);
 	private float positionWeaponSway = 0.1f;
 	private float rotationWeaponSway = 30f;
+	private Vector3 initialPosition = Vector3.Zero;
+	private Vector3 adsPosition;
+	private Tween adsTween;
+	private float _aimSpeed;
 
 	public override void _Ready()
 	{
-		ADSOffset = ADSPosition.Transform;
+		initialPosition = Stats.DefaultCameraPosition;
+		adsPosition = Stats.ADSCameraPosition;
+		model.Position = initialPosition;
+		_aimSpeed = Stats.AimSpeed;
 	}
 
 	public override void _Input(InputEvent @event)
@@ -58,6 +66,43 @@ public partial class BasePlayerGun : Node3D, IWeapon
 		}
 	}
 
+	public bool SecondaryAttack()
+	{
+		if (isADS == false)
+		{
+			if (adsTween != null)
+			{
+				adsTween.Kill();
+			}
+			adsTween = CreateTween();
+			adsTween.TweenProperty(
+				model,
+				"position",
+				adsPosition,
+				_aimSpeed
+			);
+			adsTween.SetEase(Tween.EaseType.InOut);
+			isADS = true;
+		}
+		else
+		{
+			if (adsTween != null)
+			{
+				adsTween.Kill();
+			}
+			adsTween = CreateTween();
+			adsTween.TweenProperty(
+				model,
+				"position",
+				initialPosition,
+				_aimSpeed
+			);
+			adsTween.SetEase(Tween.EaseType.InOut);
+			isADS = false;
+		}
+		return true;
+	}
+
 	public void OnMove()
 	{
 		throw new NotImplementedException();
@@ -82,11 +127,6 @@ public partial class BasePlayerGun : Node3D, IWeapon
 	{
 		canFire = true;
 		animPlayer.Play("Idle");
-	}
-
-	public Transform3D GetADSOffset()
-	{
-		return ADSOffset;
 	}
 
     public void OnEquip()

@@ -9,5 +9,4 @@ public interface IWeapon
     public void OnReload();
     public void OnEquip();
     public void OnUnequip();
-    public Transform3D GetADSOffset();
 }
