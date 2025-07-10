@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WeaponStatsResource" load_steps=2 format=3 uid="uid://d2o0fpxs61pyb"]
+
+[ext_resource type="Script" uid="uid://5gnuufun3xkt" path="res://scripts/resources/WeaponStatsResource.cs" id="1_v2u5f"]
+
+[resource]
+script = ExtResource("1_v2u5f")
+Name = "Pistol"
+WeaponType = 3
+Damage = 10.0
+metadata/_custom_type_script = "uid://5gnuufun3xkt"

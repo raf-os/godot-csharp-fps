@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dlvqsj4phwp70"]
+[gd_scene load_steps=10 format=3 uid="uid://dlvqsj4phwp70"]
 
 [ext_resource type="Script" uid="uid://cad6rtnkd0u4v" path="res://scripts/player/Player.cs" id="1_8afob"]
 [ext_resource type="Script" uid="uid://ddy1snqgbi223" path="res://scripts/stateMachine/StateMachine.cs" id="2_p47bc"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://tm56qlymuabp" path="res://scripts/player/states/WalkState.cs" id="4_0owmy"]
 [ext_resource type="Script" uid="uid://lj53u2a6u50c" path="res://scripts/player/states/JumpState.cs" id="5_qek5x"]
 [ext_resource type="Script" uid="uid://bm5cnl41w4whq" path="res://scripts/player/PlayerWeapons.cs" id="6_75vfm"]
+[ext_resource type="PackedScene" uid="uid://md1rwsejbi5k" path="res://scenes/player/weapons/wepPistol.tscn" id="7_0owmy"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_x7p2l"]
 
@@ -28,7 +29,6 @@ shape = SubResource("CapsuleShape3D_8afob")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-cull_mask = 1048573
 fov = 90.0
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState")]
@@ -45,5 +45,11 @@ script = ExtResource("4_0owmy")
 [node name="JumpState" type="Node" parent="StateMachine"]
 script = ExtResource("5_qek5x")
 
-[node name="PlayerWeapons" type="Node3D" parent="."]
+[node name="PlayerWeapons" type="Node3D" parent="." node_paths=PackedStringArray("CameraNode")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("6_75vfm")
+CameraNode = NodePath("../Head/Camera3D")
+
+[node name="WepPistol" parent="PlayerWeapons" instance=ExtResource("7_0owmy")]
+transform = Transform3D(-4.37114e-09, 0, 0.1, 0, 0.1, 0, -0.1, 0, -4.37114e-09, 0.082, -0.117285, -0.184)

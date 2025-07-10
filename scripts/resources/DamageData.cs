@@ -7,9 +7,10 @@ public partial class DamageData : Resource
     [Export]
     public float Physical { get; private set; }
 
-    public DamageData() { }
+    public DamageData() : this(0f) { }
     public DamageData(
-        float physical)
+        float physical = 0f
+        )
     {
         Physical = physical;
     }
