@@ -52,7 +52,11 @@ public partial class PlayerWeapons : Node3D
 		}
 		else if (@event.IsActionPressed("secondaryAttack"))
 		{
-			currentWeapon.SecondaryAttack();
+			currentWeapon.SecondaryAttackPress();
+		}
+		else if (@event.IsActionReleased("secondaryAttack"))
+		{
+			currentWeapon.SecondaryAttackRelease();
 		}
 	}
 

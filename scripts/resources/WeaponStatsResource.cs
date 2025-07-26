@@ -30,19 +30,23 @@ public partial class WeaponStatsResource : Resource
     public float Damage = 1.0f;
     [Export]
     public float AimSpeed = 1.0f;
+    [Export]
+    public float FireRate = 1.0f;
 
-    public WeaponStatsResource() : this(null, WeaponTypes.None, 1.0f, 1.0f) { }
+    public WeaponStatsResource() : this(null, WeaponTypes.None, 1.0f, 1.0f, 1.0f) { }
 
     public WeaponStatsResource(
         string name,
         WeaponTypes weaponType,
         float damage = 1.0f,
-        float aimSpeed = 1.0f
+        float aimSpeed = 1.0f,
+        float fireRate = 1.0f
     )
     {
         Name = name;
         WeaponType = weaponType;
         Damage = damage;
         AimSpeed = aimSpeed;
+        FireRate = fireRate;
     }
 }

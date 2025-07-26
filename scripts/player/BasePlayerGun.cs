@@ -25,6 +25,7 @@ public partial class BasePlayerGun : Node3D, IWeapon
 	private Vector3 adsPosition;
 	private Tween adsTween;
 	private float _aimSpeed;
+	private Timer FireDelayTimer;
 
 	public override void _Ready()
 	{
@@ -32,6 +33,15 @@ public partial class BasePlayerGun : Node3D, IWeapon
 		adsPosition = Stats.ADSCameraPosition;
 		model.Position = initialPosition;
 		_aimSpeed = Stats.AimSpeed;
+
+		FireDelayTimer = new Timer();
+		FireDelayTimer.OneShot = true;
+		FireDelayTimer.WaitTime = Stats.FireRate;
+		FireDelayTimer.Timeout += () =>
+		{
+			canFire = true;
+		};
+		AddChild(FireDelayTimer);
 	}
 
 	public override void _Input(InputEvent @event)
@@ -56,8 +66,11 @@ public partial class BasePlayerGun : Node3D, IWeapon
 		// TODO: this
 		if (canFire)
 		{
+			FireDelayTimer.Stop();
+			animPlayer.Stop();
 			animPlayer.Play("Attack");
 			canFire = false;
+			FireDelayTimer.Start();
 			return true;
 		}
 		else
@@ -65,42 +78,33 @@ public partial class BasePlayerGun : Node3D, IWeapon
 			return false;
 		}
 	}
-
-	public bool SecondaryAttack()
+	
+	public void SecondaryAttackPress()
 	{
-		if (isADS == false)
-		{
-			if (adsTween != null)
-			{
-				adsTween.Kill();
-			}
-			adsTween = CreateTween();
-			adsTween.TweenProperty(
-				model,
-				"position",
-				adsPosition,
-				_aimSpeed
-			);
-			adsTween.SetEase(Tween.EaseType.InOut);
-			isADS = true;
-		}
-		else
-		{
-			if (adsTween != null)
-			{
-				adsTween.Kill();
-			}
-			adsTween = CreateTween();
-			adsTween.TweenProperty(
-				model,
-				"position",
-				initialPosition,
-				_aimSpeed
-			);
-			adsTween.SetEase(Tween.EaseType.InOut);
-			isADS = false;
-		}
-		return true;
+		adsTween?.Kill();
+		adsTween = CreateTween();
+		adsTween.TweenProperty(
+			model,
+			"position",
+			adsPosition,
+			_aimSpeed
+		);
+		adsTween.SetEase(Tween.EaseType.InOut);
+		isADS = true;
+	}
+
+	public void SecondaryAttackRelease()
+	{
+		adsTween?.Kill();
+		adsTween = CreateTween();
+		adsTween.TweenProperty(
+			model,
+			"position",
+			initialPosition,
+			_aimSpeed
+		);
+		adsTween.SetEase(Tween.EaseType.InOut);
+		isADS = false;
 	}
 
 	public void OnMove()
