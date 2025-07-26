@@ -12,7 +12,7 @@ public partial class BasePlayerGun : Node3D, IWeapon
 	[Export]
 	public WeaponStatsResource Stats;
 
-	
+
 
 	private bool canFire = true;
 	private bool isADS = false;
@@ -37,10 +37,7 @@ public partial class BasePlayerGun : Node3D, IWeapon
 		FireDelayTimer = new Timer();
 		FireDelayTimer.OneShot = true;
 		FireDelayTimer.WaitTime = Stats.FireRate;
-		FireDelayTimer.Timeout += () =>
-		{
-			canFire = true;
-		};
+		FireDelayTimer.Timeout += () => ResetAttackCooldown(false);
 		AddChild(FireDelayTimer);
 	}
 
@@ -78,7 +75,7 @@ public partial class BasePlayerGun : Node3D, IWeapon
 			return false;
 		}
 	}
-	
+
 	public void SecondaryAttackPress()
 	{
 		adsTween?.Kill();
@@ -127,19 +124,22 @@ public partial class BasePlayerGun : Node3D, IWeapon
 		throw new NotImplementedException();
 	}
 
-	public void ResetAttackCooldown()
+	public void ResetAttackCooldown(bool resetAnim = true)
 	{
 		canFire = true;
-		animPlayer.Play("Idle");
+		if (resetAnim)
+		{
+			animPlayer.Play("Idle");
+		}
 	}
 
-    public void OnEquip()
-    {
+	public void OnEquip()
+	{
 		return;
-    }
+	}
 
-    public void OnUnequip()
-    {
+	public void OnUnequip()
+	{
 		return;
-    }
+	}
 }
