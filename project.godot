@@ -32,6 +32,10 @@ folder_colors={
 "res://scripts/": "green"
 }
 
+[global_group]
+
+Friendly=""
+
 [input]
 
 moveForwards={
@@ -84,3 +88,7 @@ secondaryAttack={
 
 3d_render/layer_1="World"
 3d_render/layer_2="PlayerWeapon"
+3d_physics/layer_1="Solid"
+3d_physics/layer_2="Player"
+3d_physics/layer_3="Entities"
+3d_physics/layer_4="Interactable"

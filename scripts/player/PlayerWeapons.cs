@@ -1,18 +1,22 @@
 using Godot;
 using System;
-using PlayerComponents;
+using WeaponSystem;
+
+namespace PlayerComponents;
 
 public partial class PlayerWeapons : Node3D
 {
 	[Export]
 	private Camera3D CameraNode;
+	[Export]
+	private RecoilControl recoilNode;
 
 	private Godot.Collections.Array<BasePlayerGun> weapons = [];
 	private int selectedWeaponIndex = 0;
 #nullable enable
 	private BasePlayerGun? currentWeapon;
 #nullable disable
-	
+
 	public override void _Ready()
 	{
 		foreach (Node child in GetChildren())
@@ -20,6 +24,8 @@ public partial class PlayerWeapons : Node3D
 			if (child is BasePlayerGun childGun) // America, fuck yeah
 			{
 				weapons.Add(childGun);
+				childGun.playerCameraNode = CameraNode;
+				childGun.recoilNode = recoilNode;
 			}
 		}
 		EquipWeapon(0);
@@ -63,5 +69,9 @@ public partial class PlayerWeapons : Node3D
 	public override void _Process(double delta)
 	{
 		GlobalTransform = CameraNode.GlobalTransform;
+		if (Input.IsActionPressed("attack"))
+		{
+			currentWeapon.AttackAuto();
+		}
 	}
 }

@@ -3,7 +3,8 @@ using System;
 
 namespace PlayerComponents;
 
-public partial class Player : CharacterBody3D
+[GlobalClass]
+public partial class Player : CharacterBody3D, IDamageable
 {
     [Export]
     float baseSpeed = 20.0f;
@@ -29,6 +30,8 @@ public partial class Player : CharacterBody3D
     Node3D Head;
     [Export]
     Node3D Camera;
+    [Export]
+    HealthComponent healthComponent;
 
     private float _cameraX = 0f;
     private float _cameraY = 0f;
@@ -160,5 +163,10 @@ public partial class Player : CharacterBody3D
     public bool IsTouchingFloor()
     {
         return IsOnFloor();
+    }
+
+    public void TakeDamage(float amount)
+    {
+        healthComponent.OnHealthChange(amount);
     }
 }

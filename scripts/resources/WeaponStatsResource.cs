@@ -32,15 +32,20 @@ public partial class WeaponStatsResource : Resource
     public float AimSpeed = 1.0f;
     [Export]
     public float FireRate = 1.0f;
+    [Export]
+    public float Range = 100.0f;
+    [Export]
+    public float RecoilForce = 5.0f;
 
-    public WeaponStatsResource() : this(null, WeaponTypes.None, 1.0f, 1.0f, 1.0f) { }
+    public WeaponStatsResource() : this(null, WeaponTypes.None, 1.0f, 1.0f, 1.0f, 100.0f) { }
 
     public WeaponStatsResource(
         string name,
         WeaponTypes weaponType,
         float damage = 1.0f,
         float aimSpeed = 1.0f,
-        float fireRate = 1.0f
+        float fireRate = 1.0f,
+        float range = 100.0f
     )
     {
         Name = name;
@@ -48,5 +53,6 @@ public partial class WeaponStatsResource : Resource
         Damage = damage;
         AimSpeed = aimSpeed;
         FireRate = fireRate;
+        Range = range;
     }
 }

@@ -12,8 +12,7 @@ public partial class BasePlayerGun : Node3D, IWeapon
 	[Export]
 	public WeaponStatsResource Stats;
 
-
-
+	public Camera3D playerCameraNode;
 	private bool canFire = true;
 	private bool isADS = false;
 	private Vector2 mouseMovement = Vector2.Zero;
@@ -26,6 +25,8 @@ public partial class BasePlayerGun : Node3D, IWeapon
 	private Tween adsTween;
 	private float _aimSpeed;
 	private Timer FireDelayTimer;
+	public PackedScene BulletHoleScene;
+	public RecoilControl recoilNode;
 
 	public override void _Ready()
 	{
@@ -39,6 +40,8 @@ public partial class BasePlayerGun : Node3D, IWeapon
 		FireDelayTimer.WaitTime = Stats.FireRate;
 		FireDelayTimer.Timeout += () => ResetAttackCooldown(false);
 		AddChild(FireDelayTimer);
+
+		BulletHoleScene = GD.Load<PackedScene>("res://scenes/misc/bulletDecal.tscn");
 	}
 
 	public override void _Input(InputEvent @event)
@@ -54,10 +57,6 @@ public partial class BasePlayerGun : Node3D, IWeapon
 		// TODO
 	}
 
-	public override void _Process(double delta)
-	{
-	}
-
 	public bool Attack()
 	{
 		// TODO: this
@@ -66,6 +65,8 @@ public partial class BasePlayerGun : Node3D, IWeapon
 			FireDelayTimer.Stop();
 			animPlayer.Stop();
 			animPlayer.Play("Attack");
+			PerformAttack();
+			recoilNode.ApplyRecoil(Stats.RecoilForce);
 			canFire = false;
 			FireDelayTimer.Start();
 			return true;
@@ -73,6 +74,36 @@ public partial class BasePlayerGun : Node3D, IWeapon
 		else
 		{
 			return false;
+		}
+	}
+
+	public bool AttackAuto()
+	{
+		if (Stats.WeaponType == WeaponTypes.Automatic)
+		{
+			return Attack();
+		}
+		else return false;
+	}
+
+	public virtual void PerformAttack()
+	{
+		var spaceState = GetWorld3D().DirectSpaceState;
+		var screenCenter = GetViewport().GetVisibleRect().Size / 2;
+
+		var origin = playerCameraNode.ProjectRayOrigin(screenCenter);
+		var end = origin + playerCameraNode.ProjectRayNormal(screenCenter) * Stats.Range;
+		var query = PhysicsRayQueryParameters3D.Create(origin, end);
+
+		query.CollideWithBodies = true;
+		query.CollisionMask = 5;
+
+		var result = spaceState.IntersectRay(query);
+		if (result.ContainsKey("collider"))
+		{
+			var bHole = BulletHoleScene.Instantiate<Node3D>(); // haha
+			GetTree().Root.AddChild(bHole);
+			bHole.GlobalPosition = (Vector3)result["position"];
 		}
 	}
 
