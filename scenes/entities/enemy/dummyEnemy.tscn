@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://ch15oj8vv5etm"]
+
+[ext_resource type="Script" uid="uid://bnkjrrypb0u6t" path="res://scripts/entities/BaseEnemy.cs" id="1_uvgcl"]
+[ext_resource type="Script" uid="uid://gg53a478oaj7" path="res://scripts/entities/components/HealthComponent.cs" id="2_tp2ii"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_uvgcl"]
+radial_segments = 32
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tp2ii"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_tp2ii"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tp2ii"]
+bg_color = Color(0.20871, 0.20871, 0.20871, 1)
+border_width_bottom = 2
+border_color = Color(0.0728426, 0.0728427, 0.0728426, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7n2xm"]
+bg_color = Color(0.809385, 0.173035, 0.217361, 1)
+border_width_bottom = 4
+border_color = Color(0.503174, 0.180014, 0.18831, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="DummyEnemy" type="CharacterBody3D" node_paths=PackedStringArray("healthComponent", "HealthBar")]
+script = ExtResource("1_uvgcl")
+healthComponent = NodePath("HealthComponent")
+HealthBar = NodePath("SubViewport/MarginContainer/ProgressBar")
+metadata/_custom_type_script = "uid://bnkjrrypb0u6t"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_uvgcl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_tp2ii")
+
+[node name="HealthComponent" type="Node3D" parent="."]
+script = ExtResource("2_tp2ii")
+MaxHealth = 100.0
+metadata/_custom_type_script = "uid://gg53a478oaj7"
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.21988, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_tp2ii")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(256, 24)
+
+[node name="MarginContainer" type="MarginContainer" parent="SubViewport"]
+offset_right = 256.0
+offset_bottom = 24.0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="ProgressBar" type="ProgressBar" parent="SubViewport/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 12
+theme_override_styles/background = SubResource("StyleBoxFlat_tp2ii")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7n2xm")
+value = 50.0
+show_percentage = false

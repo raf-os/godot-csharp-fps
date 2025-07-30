@@ -104,6 +104,10 @@ public partial class BasePlayerGun : Node3D, IWeapon
 			var bHole = BulletHoleScene.Instantiate<Node3D>(); // haha
 			GetTree().Root.AddChild(bHole);
 			bHole.GlobalPosition = (Vector3)result["position"];
+			if ((Node3D)result["collider"] is IDamageable victim)
+			{
+				victim.TakeDamage(Stats.Damage);
+			}
 		}
 	}
 

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 [GlobalClass]
 public partial class HealthComponent : Node3D
@@ -14,11 +15,12 @@ public partial class HealthComponent : Node3D
     [Signal]
     public delegate void EntityDeathEventHandler();
     [Signal]
-    public delegate float EntityHealthChangeEventHandler();
+    public delegate void EntityHealthChangeEventHandler(float newHealth);
 
-    public override void _Ready()
+    public override async void _Ready()
     {
-        _Health = MaxHealth;
+        await ToSignal(Owner, SignalName.Ready);
+        OverrideHealth(MaxHealth);
     }
 
     public float GetCurrentHealth()
@@ -29,12 +31,13 @@ public partial class HealthComponent : Node3D
     public void OverrideHealth(float amount)
     {
         _Health = Mathf.Min(MaxHealth, amount);
+        EmitSignal(SignalName.EntityHealthChange, _Health);
     }
 
     public void OnHealthChange(float amount)
     {
         if (isDying) return;
-        _Health = Mathf.Clamp(_Health + amount, 0, MaxHealth);
+        _Health = Mathf.Clamp(_Health - amount, 0, MaxHealth);
         EmitSignal(SignalName.EntityHealthChange, _Health);
         if (_Health <= 0f)
         {
