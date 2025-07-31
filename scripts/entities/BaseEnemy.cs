@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 [GlobalClass]
-public partial class BaseEnemy : CharacterBody3D, IDamageable
+public partial class BaseEnemy : RigidBody3D, IDamageable
 {
     [ExportGroup("Nodes")]
     [Export]

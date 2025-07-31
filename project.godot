@@ -35,6 +35,7 @@ folder_colors={
 [global_group]
 
 Friendly=""
+Hostile="Entities considered hostile to the player"
 
 [input]
 
@@ -92,3 +93,7 @@ secondaryAttack={
 3d_physics/layer_2="Player"
 3d_physics/layer_3="Entities"
 3d_physics/layer_4="Interactable"
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
